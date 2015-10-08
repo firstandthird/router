@@ -1,9 +1,13 @@
 # router
 docker router powered by nginx
 
+## features
+* auto route to containers as they are started
+* send logs to logentries
+
 ## usage
 
-`docker-compose up -d`
+`LOGENTRIES_TOKEN={token} docker-compose up -d`
 
 ## containers
 
