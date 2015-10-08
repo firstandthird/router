@@ -1,0 +1,7 @@
+#!/bin/bash
+
+rm nginx.tmpl
+
+wget https://raw.githubusercontent.com/jwilder/nginx-proxy/master/nginx.tmpl
+
+sed -i 's/access.log vhost/access.log json/g' nginx.tmpl

@@ -1,0 +1,25 @@
+nginx:
+  build: '.'
+  dockerfile: 'Dockerfile.nginx'
+  ports:
+    - '80:80'
+    - '443:443'
+  volumes:
+    - '/tmp/lb:/etc/nginx/conf.d'
+    - '/etc/sslmate:/etc/nginx/certs'
+dockergen:
+  build: '.'
+  dockerfile: 'Dockerfile.gen'
+  command: '-notify-sighup router_nginx_1 -watch -only-exposed /etc/docker-gen/templates/nginx.tmpl /etc/nginx/conf.d/default.conf'
+  volumes:
+    - '/var/run/docker.sock:/tmp/docker.sock:ro'
+  volumes_from:
+    - 'nginx'
+logger:
+  image: 'logentries/docker-logentries'
+  command: "-j --matchByImage router_nginx --no-stats"
+  environment:
+    - LOGENTRIES_TOKEN
+  volumes:
+    - '/var/run/docker.sock:/var/run/docker.sock:ro'
+
